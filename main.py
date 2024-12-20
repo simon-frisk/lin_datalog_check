@@ -3,6 +3,9 @@ from semiring import SR
 
 
 def identity_matrix(n, p):
+    """
+    Create the identity matrix for the semiring for the instance with n nodes, over a p stable semiring
+    """
     assert(n % 3 == 0)
 
     vector_length = n ** 2 // 9
@@ -12,12 +15,18 @@ def identity_matrix(n, p):
     one.set_to_one()
 
     for i in range(n):
-        matrix.set(i,i,one)
+        matrix.set(i,i,one.copy())
 
     return matrix
 
 
 def create_program_matrix(n, p):
+    """
+    Construct the matrix describing the datalog program
+    :param n: the number of nodes in the graph. Needs to be a multiple of 3
+    :param p: the p for which the semiring is p-stable
+    :return: the matrix describing the program
+    """
     assert(n % 3 == 0)
 
     vector_length = n**2 // 9
@@ -37,18 +46,22 @@ def create_program_matrix(n, p):
         for j in range(0, n//3):
             el = SR(vector_length, p)
             el.set_to_one()
-            el.set((i-2 * n // 3) * n // 3 + j, 1)
+            el.set((i - 2 * n // 3) * n // 3 + j, 1)
             matrix.set(i, j, el)
 
     return matrix
 
 
 def iterate(matrix, identity):
+    """
+    For matrix A, let A^(i)=1+A+A^2+...+A^i. Return the lowest i such that A^(i)=A^(i+1).
+    """
     i = 0
     current = identity
     while True:
         prev = current
         current = current * matrix + identity
+        #print(current)
         if current == prev:
             break
         else:

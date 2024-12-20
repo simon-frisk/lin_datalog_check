@@ -1,6 +1,7 @@
 
 
 class Matrix:
+
     def __init__(self, n, m, zero):
         self.n = n
         self.m = m
@@ -21,7 +22,6 @@ class Matrix:
         for i in range(self.n):
             for j in range(other.m):
                 for k in range(self.m):
-                    # Something like this, not sure
                     new_val = result.get(i, j) + self.get(i, k) * other.get(k, j)
                     result.set(i, j, new_val)
         return result
