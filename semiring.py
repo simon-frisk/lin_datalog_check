@@ -11,6 +11,9 @@ class SR:
     """
 
     def __init__(self, k, p):
+        """
+        Initialize the semiring value to the zero element.
+        """
         self.k = k
         self.p = p
         self.value = None
