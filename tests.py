@@ -1,5 +1,6 @@
 import unittest
 from matrix import Matrix
+from semiring import SR
 
 
 def create_test_matrices():
@@ -39,6 +40,43 @@ class TestMatrix(unittest.TestCase):
         m1, m2, m3, m4 = create_test_matrices()
         self.assertEqual(m1 * m2, m4)
 
+
+class TestSemiRing(unittest.TestCase):
+    def test_add(self):
+        v1 = SR(2,2)
+        v1.set(0, 1)
+        v2 = SR(2, 2)
+        v2.set(1, 1)
+        v3 = SR(2, 2)
+        v3.set(0, 1)
+        v3.set(1, 1)
+        self.assertEqual(v1+v2, v3)
+        self.assertEqual(v3+v3,v3)
+
+    def test_mul(self):
+        v1 = SR(2, 1)
+        v1.set(0, 1)
+        v2 = SR(2, 1)
+        v2.set(1, 1)
+        v3 = SR(2, 1)
+        v3.set(0, 1)
+        v3.set(1, 1)
+        self.assertEqual(v1 * v2, v3)
+        self.assertEqual(v3 * v3, v3)
+
+    def test_0(self):
+        zero = SR(2, 1)
+        v1 = SR(2, 1)
+        v1.set(0, 1)
+        self.assertEqual(v1 * zero, zero)
+        self.assertEqual(v1 + zero, v1)
+
+    def test_1(self):
+        one = SR(2, 1)
+        one.set_to_one()
+        v1 = SR(2, 1)
+        v1.set(0, 1)
+        self.assertEqual(v1 * one, v1)
 
 if __name__ == '__main__':
     unittest.main()

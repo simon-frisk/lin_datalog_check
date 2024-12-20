@@ -55,3 +55,6 @@ class SR:
 
     def __str__(self):
         return self.value.__str__()
+
+    def __repr__(self):
+        return self.value.__repr__()
