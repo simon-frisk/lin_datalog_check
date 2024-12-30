@@ -2,20 +2,17 @@ from matrix import Matrix
 from semiring import SR
 
 
-def identity_matrix(n, p):
+def identity_matrix(n, p, length):
     """
     Create the identity matrix for the semiring for the instance with n nodes, over a p stable semiring
     """
-    assert(n % 3 == 0)
 
-    vector_length = n ** 2 // 9
-
-    matrix = Matrix(n, n, SR(vector_length, p))
-    one = SR(vector_length,p)
+    matrix = Matrix(n, n, SR(length, p))
+    one = SR(length, p)
     one.set_to_one()
 
     for i in range(n):
-        matrix.set(i,i,one.copy())
+        matrix.set(i, i, one.copy())
 
     return matrix
 
@@ -45,7 +42,6 @@ def create_program_matrix(n, p):
 
         for j in range(0, n//3):
             el = SR(vector_length, p)
-            el.set_to_one()
             el.set((i - 2 * n // 3) * n // 3 + j, 1)
             matrix.set(i, j, el)
 
@@ -70,11 +66,12 @@ def iterate(matrix, identity):
 
 
 def main():
-    for p in [1, 2, 5]:
-        for n in [6, 9, 30]:
+    for p in [1, 2, 5, 7]:
+        for n in [6, 9, 30, 60]:
+            length = n ** 2 // 9
             print("n=", n, ", p=", p, end=": ", sep="")
             m = create_program_matrix(n, p)
-            identity = identity_matrix(n, p)
+            identity = identity_matrix(n, p, length)
             print(iterate(m, identity), "iterations")
 
 
